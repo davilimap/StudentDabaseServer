@@ -13,6 +13,16 @@ router.get('/:id?', function (req, res, next) {
             }
         });
     }
+    else if (req.query.name) {
+        Student.getStudentByName(req.query.name, function (err, rows) {
+            if (err) {
+                res.json(err);
+            }
+            else {
+                res.json(rows);
+            }
+        });
+    }
     else {
         Student.getAllStudents(function (err, rows) {
             if (err) {
@@ -26,12 +36,12 @@ router.get('/:id?', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-    Student.addStudent(req.body, function (err, count) {
+    Student.addStudent(req.body, function (err, results) {
         if (err) {
             res.json(err);
         }
         else {
-            res.json(req.body);
+            res.json(results.insertId);
         }
     });
 });
